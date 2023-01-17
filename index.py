@@ -18,6 +18,18 @@ def index():
     # ファイルから読み込んだデータをHTMLに渡す
     return render_template('index.html', data = lines.split("\n"))
 
+@app.route('/', methods=["POST"])
+def index_post():
+
+    name = request.form["name"]
+    msg = request.form["msg"]
+    time = datetime.now()
+
+    with open('/var/python-app/data.txt','a') as f:
+        f.write(f"{time} {name} {msg}\n")
+
+    return redirect("/")
+
 if __name__ == '__main__':
     # フォルダの作成
     os.makedirs("/var/python-app", exist_ok=True)
